@@ -1,5 +1,5 @@
 var path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env) => {
   const isDevBuild = !(env && env.production);
@@ -7,11 +7,11 @@ module.exports = (env) => {
   return {
     devtool: 'inline-source-map',
     entry: {
-      'main': ['./ClientApp/boot-client.js'],
+      'main': ['./ClientApp/boot-client.js', './ClientApp/index.scss'],
       'main-server': ['./ClientApp/boot-server.js']
     },
     output: {
-      path: path.join(__dirname, './ClientApp/dist'),
+      path: path.join(__dirname, './wwwroot/dist'),
       publicPath: '/dist/',
       filename: isDevBuild ? "[name].js" : "[name].min.js",
       libraryTarget: 'commonjs'
@@ -19,6 +19,14 @@ module.exports = (env) => {
     resolve: {
       extensions: [".jsx", ".js"],
     },
+    plugins: [
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "[name].css",
+        chunkFilename: "[id].css"
+      })
+    ],
     module: {
       rules: [
         {
@@ -41,9 +49,16 @@ module.exports = (env) => {
         },
         {
           test: /\.s?css$/,
-          use: isDevBuild
-            ? ['style-loader', 'css-loader', 'sass-loader']
-            : ExtractTextPlugin.extract({ use: ['css-loader', 'sass-loader'] })
+          use: isDevBuild ? [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            'sass-loader',
+          ] :
+            [
+              MiniCssExtractPlugin.loader,
+              'sass-loader',
+              'css-loader'
+            ]
         }
       ]
     },

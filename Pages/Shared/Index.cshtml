@@ -1,7 +1,6 @@
 <div id="my-spa" 
-     asp-prerender-module="ClientApp/dist/main-server"
+     asp-prerender-module="./wwwroot/dist/main-server"
      asp-prerender-webpack-config="webpack.config.js"></div>
 
-@section scripts {
-    <script src="~/ClientApp/dist/main.js" asp-append-version="true"></script>
-}
+<script src="~/dist/main.js" asp-append-version="true"></script>
+<link rel="stylesheet" type="text/css" href="~/dist/main.css" />
