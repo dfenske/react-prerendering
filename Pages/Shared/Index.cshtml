@@ -1,9 +1,7 @@
-﻿<div 
-    id="react-app" 
-    asp-prerender-module="app/config/boot-server"
-    asp-prerender-webpack-config="/app/config/webpack.config.dev.js"
-    @*asp-prerender-data="@Model"*@>
-    Loading...
-</div>
+<div id="my-spa" 
+     asp-prerender-module="ClientApp/dist/main-server"
+     asp-prerender-webpack-config="webpack.config.js"></div>
 
-<script src="app/build/js/main.js" asp-append-version="true"></script>
+@section scripts {
+    <script src="~/ClientApp/dist/main.js" asp-append-version="true"></script>
+}

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace test
+namespace aspnet_reactredux
 {
     public class Startup
     {
@@ -26,7 +26,7 @@ namespace test
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "app/build";
+                configuration.RootPath = "ClientApp/build";
             });
         }
 
@@ -36,6 +36,11 @@ namespace test
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true,
+                    ReactHotModuleReplacement = true,
+                });
             }
             else
             {
@@ -45,7 +50,7 @@ namespace test
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -54,15 +59,15 @@ namespace test
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "app";
+            //app.UseSpa(spa =>
+            //{
+            //    spa.Options.SourcePath = "ClientApp";
 
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
-            });
+            //    // if (env.IsDevelopment())
+            //    // {
+            //    //     spa.UseReactDevelopmentServer(npmScript: "start");
+            //    // }
+            //});
         }
     }
 }
